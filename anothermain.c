@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 int main() {
-
+	
+	int result
 	char prompt[60];
 	char host[60]; 
 	char name[60];
@@ -13,13 +14,13 @@ int main() {
  	pclose(canal);
 	name[strcspn(name, "\n")] = 0;
 
-	canal = popen("hostname", "r");
+	canal = popen("echo $HOST", "r");
 	fgets(host, sizeof(host), canal);
 	pclose(canal);
 	host[strcspn(host, "\n")] = 0;
 
 	while (1) {
-		printf(name, "@", host, "$");
+		printf("%s@%s >", name, host);
 		fgets(prompt, sizeof(prompt), stdin);
 
 		prompt[strcspn(prompt, "\n")] = 0;
@@ -27,7 +28,10 @@ int main() {
 			break;
 		}
 		else {
-			int result = system(prompt);
+			&result = system(prompt);
+		}
+		if (result == -1) {
+			printf("error; try to restart the program");
 		}
 	}
 	return 0; 
