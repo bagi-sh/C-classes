@@ -4,7 +4,7 @@
 
 int main() {
 	
-	int result
+	int result;
 	char prompt[60];
 	char host[60]; 
 	char name[60];
@@ -28,7 +28,7 @@ int main() {
 			break;
 		}
 		else {
-			&result = system(prompt);
+result = system(prompt);
 		}
 		if (result == -1) {
 			printf("error; try to restart the program");
