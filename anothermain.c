@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main() {
-	
 #ifdef _WIN32
 	#include <windows.h>
 	#include <lmcons.h>
@@ -22,8 +20,10 @@ int main() {
 
 	getlogin_r(name, sizeof(name));
 	gethostname(host, sizeof(host));
-
 #endif
+
+int main() {
+	
 
 	int result;
 	char prompt[60];
