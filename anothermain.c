@@ -4,23 +4,25 @@
 
 int main() {
 	
-	char host[60]; 
-	char name[60];
-
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
+	#include <lmcons.h>
+	char name[UNLEN + 1];
 	DWORD size = sizeof(name);
 	GetUserNameA(name, size);
+
+	char host[MAX_COMPUTERNAME_LENGTH + 1];
+	DWORD tamanho_host = sizeof(host);
+	GetComputerNameA(host, &tamanho_host);
 #else 
 	#include <unistd.h>
-	getlogin_r(name, sizeof(name));
-#endif
+	#include <limits.h>
+	char name [LOGIN_NAME_MAX];
+	char host [HOST_NAME_MAX];
 
-#ifdef _WIN32
-    DWORD tamanho_host = sizeof(host);
-    GetComputerNameA(host, &tamanho_host);
-#else
-    gethostname(host, sizeof(host));
+	getlogin_r(name, sizeof(name));
+	gethostname(host, sizeof(host));
+
 #endif
 
 	int result;
@@ -29,8 +31,12 @@ int main() {
 	while (1) {
 		printf("%s@%s >\n", name, host);
 		fgets(prompt, sizeof(prompt), stdin);
-
+		
+		if (strchr(prompt, '\n') == NULL) {
+			while (getchar() != '\n' && getchar() != EOF);
+		}
 		prompt[strcspn(prompt, "\n")] = 0;
+
 		if (strcmp(prompt, "exit") == 0) {
 			break;
 		}
