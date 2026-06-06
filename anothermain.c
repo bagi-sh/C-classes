@@ -1,43 +1,43 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
 
-#ifdef _WIN32
-	#include <windows.h>
-	#include <lmcons.h>
-	char name[UNLEN + 1];
-	DWORD size = sizeof(name);
-	GetUserNameA(name, size);
-
-	char host[MAX_COMPUTERNAME_LENGTH + 1];
-	DWORD tamanho_host = sizeof(host);
-	GetComputerNameA(host, &tamanho_host);
-#else 
-	#include <unistd.h>
-	#include <limits.h>
-	char name [LOGIN_NAME_MAX];
+int main() {
+// extraindo usuario e host do sistema
+  char name [LOGIN_NAME_MAX];
 	char host [HOST_NAME_MAX];
 
 	getlogin_r(name, sizeof(name));
 	gethostname(host, sizeof(host));
-#endif
 
-int main() {
-	
-
-	int result;
-	char prompt[60];
+  char prompt[60];
+  int result;
 
 	while (1) {
-		printf("%s@%s >\n", name, host);
-		fgets(prompt, sizeof(prompt), stdin);
-		
-		if (strchr(prompt, '\n') == NULL) {
-			while (getchar() != '\n' && getchar() != EOF);
-		}
-		prompt[strcspn(prompt, "\n")] = 0;
 
-		if (strcmp(prompt, "exit") == 0) {
+		printf("%s@%s:\n", name, host); //cria o prompt
+
+		fgets(prompt, sizeof(prompt), stdin); //lê entrada e coloca na variável prompt
+		if (strchr(prompt, '\n') == NULL) {
+			while (getchar() != '\n' && getchar() != EOF); // limpa o buffer
+		}
+
+    char *token
+    char *arg[60];
+    int i = 0;
+
+    token = strtok(prompt, " ");
+    while (token != NULL) {
+      arg[i] = token;
+      i++;
+      strtok(NULL, " ");
+    }
+    arg[i] = NULL;
+
+		prompt[strcspn(prompt, "\n")] = 0; // remove o carctere de noca linha
+		if (strcmp(args[0], "exit") == 0) {
 			break;
 		}
 		else {
