@@ -12,36 +12,51 @@ int main() {
 	getlogin_r(name, sizeof(name));
 	gethostname(host, sizeof(host));
 
-  char prompt[60];
+  char *prompt;
+  prompt = (char *) malloc(60 * sizeof(char));
+  int dsize = 60;
   int result;
+  char *token;
+  char *arg[60];
+  int i = 0;
+
 
 	while (1) {
 
 		printf("%s@%s:\n", name, host); //cria o prompt
 
-		fgets(prompt, sizeof(prompt), stdin); //lê entrada e coloca na variável prompt
-		if (strchr(prompt, '\n') == NULL) {
-			while (getchar() != '\n' && getchar() != EOF); // limpa o buffer
-		}
+		fgets(prompt, dsize, stdin); //lê entrada e coloca na variável prompt
 
-    char *token
-    char *arg[60];
-    int i = 0;
+    while (strchr(prompt, '\n') == NULL && dsize < 4096) {
+      dsize = dsize + 60;
+      prompt = (char *) realloc(prompt, dsize);
+      pfinal = prompt + strlen(prompt);
+      fgets(pfinal, 61, stdin);
+    }
+
+    if (strchr(prompt, '\n') == NULL) {
+      printf("Error; your prompt is bigger than 4096 bytes. \n");
+      int c
+      while((c = getchar()) != '\n' && c != EOF);
+        contine;
+    }
+
+  prompt[strcspn(prompt, "\n")] = 0; // remove o carctere de nova linha
 
     token = strtok(prompt, " ");
-    while (token != NULL) {
+    while (token != NULL && i < 59) {
       arg[i] = token;
       i++;
-      strtok(NULL, " ");
+      token = strtok(NULL, " ");
     }
     arg[i] = NULL;
 
-		prompt[strcspn(prompt, "\n")] = 0; // remove o carctere de noca linha
 		if (strcmp(args[0], "exit") == 0) {
 			break;
 		}
 		else {
 			result = system(prompt);
+      free(prompt);
 		}
 		if (result == -1) {
 			printf("error; try to restart the program");
