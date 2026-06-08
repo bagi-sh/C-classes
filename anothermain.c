@@ -19,7 +19,7 @@ int main() {
   char *token;
   char *arg[60];
   int i = 0;
-
+  char *pfinal;
 
 	while (1) {
 
@@ -36,9 +36,9 @@ int main() {
 
     if (strchr(prompt, '\n') == NULL) {
       printf("Error; your prompt is bigger than 4096 bytes. \n");
-      int c
+      int c;
       while((c = getchar()) != '\n' && c != EOF);
-        contine;
+        continue;
     }
 
   prompt[strcspn(prompt, "\n")] = 0; // remove o carctere de nova linha
@@ -51,7 +51,7 @@ int main() {
     }
     arg[i] = NULL;
 
-		if (strcmp(args[0], "exit") == 0) {
+		if (strcmp(arg[0], "exit") == 0) {
 			break;
 		}
 		else {
