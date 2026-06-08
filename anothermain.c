@@ -13,17 +13,18 @@ int main() {
 	gethostname(host, sizeof(host));
 
   char *prompt;
-  prompt = (char *) malloc(60 * sizeof(char));
+  prompt = (char *) malloc(dsize);
   int dsize = 60;
   int result;
   char *token;
   char *arg[60];
-  int i = 0;
   char *pfinal;
 
 	while (1) {
 
-		printf("%s@%s:\n", name, host); //cria o prompt
+    int i = 0;
+
+	  printf("%s@%s:\n", name, host); //cria o prompt
 
 		fgets(prompt, dsize, stdin); //lê entrada e coloca na variável prompt
 
@@ -56,7 +57,6 @@ int main() {
 		}
 		else {
 			result = system(prompt);
-      free(prompt);
 		}
 		if (result == -1) {
 			printf("error; try to restart the program");
@@ -65,5 +65,6 @@ int main() {
 			printf("error; command doesn't exist");
 		}
 	}
+  free(prompt);
 	return 0; 
 }
