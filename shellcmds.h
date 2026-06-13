@@ -2,7 +2,7 @@
 #define SHELLCMDS_H
 
 void exec_cd(char *arg[]);
-void exec_pwd(char);
+void exec_pwd();
 void exec_ls(char *arg[]);
 void exec_cat(char *arg[]);
 void exec_cp(char *arg[]);
