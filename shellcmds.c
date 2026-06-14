@@ -77,8 +77,11 @@ if (arg[1] == NULL) {
   output = (char *) malloc(size);
   int letter;
 
-  while ((letter = fgetc(alvo)) != EOF && size < 4096) {
-
+  while ((letter = fgetc(alvo)) != EOF) {
+    if (position >= 4096 -1) {
+      printf("\n[cat: Arquivo muito grande, lendo apenas os primeiros 4095 bytes]\n");
+      break;
+    }
     if (position >= size - 1) {
       size += 60;
       char *temp = (char *) realloc(output, size);
