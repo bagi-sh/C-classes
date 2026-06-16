@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include "shellcmds.h"
 
 int main() {
 
@@ -13,8 +14,8 @@ int main() {
 	gethostname(host, sizeof(host));
 
   char *prompt;
-  prompt = (char *) malloc(dsize);
   int dsize = 60;
+  prompt = (char *) malloc(dsize);
   int result;
   char *token;
   char *arg[60];
@@ -24,7 +25,7 @@ int main() {
 
     int i = 0;
 
-	  printf("%s@%s:\n", name, host); 
+	  printf("%s@%s: ", name, host); 
 
 		fgets(prompt, dsize, stdin);
     
@@ -56,17 +57,17 @@ int main() {
 		if (strcmp(arg[0], "exit") == 0) {
 			break;
 		}
-    else if (strcmp(arg[0], "cd")) 
-      exec_cd(char *arg);
+    else if (strcmp(arg[0], "cd") == 0) 
+      exec_cd(arg);
 
-    else if (strcmp(arg[0], "pwd"))
-      exec_pwd(char *arg);
+    else if (strcmp(arg[0], "pwd") == 0)
+      exec_pwd();
 
-    else if (strcmp(arg[0], "ls"))
-        exec_ls(char *arg);
+    else if (strcmp(arg[0], "ls") == 0)
+        exec_ls(arg);
 
-    else if (strcmp(arg[0], "cat"))
-        exec_cat(char *arg);
+    else if (strcmp(arg[0], "cat") == 0)
+        exec_cat(arg);
 
     else {
 			result = system(prompt);
