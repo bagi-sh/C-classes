@@ -1,4 +1,4 @@
-#include "builtins.h" 
+#include "shellcmds.h" 
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -7,11 +7,11 @@
 
 void exec_cd(char *arg[]) {
   if (arg[1] == NULL) {
-    char *home[1024] = (getenv("HOME"));
+    char *home = getenv("HOME");
     if (home != NULL) chdir(home);
   }
-  elseif (arg[1] == '~') {
-    char *home[1024] = (getenv("HOME"));
+  else if (arg[1][0] == '~') {
+    char *home = getenv("HOME");
     if (home != NULL) {
       char way[2048];
       strcpy(way, home);
@@ -32,7 +32,7 @@ void exec_pwd() {
   }
 }
 
-void exec_ls(char *arg[1]) {
+void exec_ls(char *arg[]) {
     
   DIR *list;
   if (arg[1] == NULL) {
@@ -53,9 +53,9 @@ void exec_ls(char *arg[1]) {
 
   struct dirent *output;
   while ((output = readdir(list)) != NULL) {
-    printf("%s\n" output->d_name);
-    closedir(list);
-  } 
+    printf("%s\n", output->d_name);
+  }
+  closedir(list);
 }
 
 void exec_cat(char *arg[]) {
@@ -88,16 +88,16 @@ if (arg[1] == NULL) {
       if (temp == NULL) {
         perror("Error: unexpected memory error");
         free(output);
-        closedir(alvo);
+        fclose(alvo);
         return;
       }
       output = temp; 
     }
-    output[position] = (char)c;
+    output[position] = (char)letter;
     position++;
   }
   output[position] = '\0';
   printf("%s \n", output);
   free(output);
-  closedir(alvo);
+  fclose(alvo);
 }
