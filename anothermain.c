@@ -5,7 +5,7 @@
 #include <limits.h>
 
 int main() {
-// extraindo usuario e host do sistema
+
   char name [LOGIN_NAME_MAX];
 	char host [HOST_NAME_MAX];
 
@@ -24,15 +24,16 @@ int main() {
 
     int i = 0;
 
-	  printf("%s@%s:\n", name, host); //cria o prompt
+	  printf("%s@%s:\n", name, host); 
 
-		fgets(prompt, dsize, stdin); //lê entrada e coloca na variável prompt
-
+		fgets(prompt, dsize, stdin);
+    
     while (strchr(prompt, '\n') == NULL && dsize < 4096) {
-      dsize = dsize + 60;
-      prompt = (char *) realloc(prompt, dsize);
-      pfinal = prompt + strlen(prompt);
-      fgets(pfinal, 61, stdin);
+      dsize = dsize + 60; 
+      prompt = (char *) realloc(prompt, dsize); 
+      pfinal = prompt + strlen(prompt); 
+      // fgets lê apartir do endereço em que prompt acabou + 70 caracteres e o \0
+      fgets(pfinal, 65, stdin);
     }
 
     if (strchr(prompt, '\n') == NULL) {
@@ -42,7 +43,7 @@ int main() {
         continue;
     }
 
-  prompt[strcspn(prompt, "\n")] = 0; // remove o carctere de nova linha
+  prompt[strcspn(prompt, "\n")] = 0; // serve para limpar o array antes de tokenizar executar
 
     token = strtok(prompt, " ");
     while (token != NULL && i < 59) {
@@ -50,12 +51,24 @@ int main() {
       i++;
       token = strtok(NULL, " ");
     }
-    arg[i] = NULL;
+    arg[i] = NULL; // define o ultimo caractere como \0 pq o execvp vai exigir isso mais tarde
 
 		if (strcmp(arg[0], "exit") == 0) {
 			break;
 		}
-		else {
+    else if (strcmp(arg[0], "cd")) 
+      exec_cd(char *arg);
+
+    else if (strcmp(arg[0], "pwd"))
+      exec_pwd(char *arg);
+
+    else if (strcmp(arg[0], "ls"))
+        exec_ls(char *arg);
+
+    else if (strcmp(arg[0], "cat"))
+        exec_cat(char *arg);
+
+    else {
 			result = system(prompt);
 		}
 		if (result == -1) {

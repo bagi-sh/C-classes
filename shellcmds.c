@@ -32,7 +32,7 @@ void exec_pwd() {
   }
 }
 
-void exec_ls(arg[1]) {
+void exec_ls(char *arg[1]) {
     
   DIR *list;
   if (arg[1] == NULL) {
